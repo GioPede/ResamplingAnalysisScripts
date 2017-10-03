@@ -6,7 +6,7 @@ So far this is a simple python script (should be made parallel...) to perform re
 ## Usage
 Simply run `python analysis.py FILENAME.xxx [NLINES]`
 
-Where `FILENAME` is expected to have a 3 charachter extension `NLINES` (optional) is the number of lines in the file to read and process (default is the whole file)
+Where `FILENAME` is expected to have a 3 charachter extension `NLINES` (optional) is the number of lines in the file to read and process (default is the whole file, but it gets very slow above 2-3 hundred thousand entries)
 
 Ouput is located into the `FILENAME/` folder.
 
