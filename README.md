@@ -1,4 +1,4 @@
-#ResamplingAnalysisScripts
+# ResamplingAnalysisScripts
 
 ## Sample Scripts for data Analysis
 So far this is a simple python script (should be made parallel...) to perform resampling of a data set.
