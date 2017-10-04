@@ -19,8 +19,8 @@ class dataAnalysisClass:
         if size != 0:
             self.data = np.loadtxt(self.inputFileName)[0:size]
         else:
-            self.data = np.loadtxt(self.inputFileName)  
-        
+            self.data = np.loadtxt(self.inputFileName)
+
     # Statistical Analysis with Multiple Methods
     def runAllAnalyses(self):
         if len(self.data) <= 100000:
@@ -61,15 +61,16 @@ class dataAnalysisClass:
 
     def blocking(self, nPoints=500):
         blockSizeMin = 1
-        blockSizeMax = len(self.data)/2
+        blockSizeMax = len(self.data)
 
         self.blockSizes = []
         self.meanVec = []
         self.varVec = []
 
-        blockList = np.linspace(blockSizeMin, blockSizeMax, nPoints)
-        for i in range(0, nPoints):
-            blockSize = int(blockList[i])
+        for i in range(blockSizeMin, blockSizeMax):
+            if(len(self.data) % i != 0):
+                continue
+            blockSize = i
             meanTempVec = []
             varTempVec = []
             startPoint = 0
@@ -79,11 +80,11 @@ class dataAnalysisClass:
                 meanTempVec.append(np.average(self.data[startPoint:endPoint]))
                 startPoint = endPoint
                 endPoint += blockSize
-            mean, var = np.average(meanTempVec), np.var(meanTempVec) 
+            mean, var = np.average(meanTempVec), np.var(meanTempVec)
             self.meanVec.append(mean)
             self.varVec.append(var)
             self.blockSizes.append(blockSize)
-            
+
         self.blockingAvg = np.average(self.meanVec[-3:])
         self.blockingVar = (np.average(self.varVec[-3:]))
         self.blockingStd = np.sqrt(self.blockingVar)
