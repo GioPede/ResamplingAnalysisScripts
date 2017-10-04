@@ -1,9 +1,20 @@
 from sys import argv
 from os import mkdir, path
+import time
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 from matplotlib.font_manager import FontProperties
+
+# Timing Decorator
+def timeFunction(f):
+    def wrap(*args):
+        time1 = time.time()
+        ret = f(*args)
+        time2 = time.time()
+        print '%s function took %0.3f s' % (f.func_name, (time2-time1))
+        return ret
+    return wrap
 
 class dataAnalysisClass:
     # General Init functions
@@ -34,6 +45,7 @@ class dataAnalysisClass:
         self.blocking()
 
     # Standard Autocorrelation
+    @timeFunction
     def autocorrelation(self):
         self.acf = np.zeros(len(self.data)/2)
         for k in range(0, len(self.data)/2):
@@ -41,6 +53,7 @@ class dataAnalysisClass:
                                             self.data[k:len(self.data)]]))[0,1]
 
     # Bootstrap
+    @timeFunction
     def bootstrap(self, nBoots = 1000):
         bootVec = np.zeros(nBoots)
         for k in range(0,nBoots):
@@ -50,6 +63,7 @@ class dataAnalysisClass:
         self.bootStd = np.std(bootVec)
 
     # Jackknife
+    @timeFunction
     def jackknife(self):
         jackknVec = np.zeros(len(self.data))
         for k in range(0,len(self.data)):
@@ -58,7 +72,8 @@ class dataAnalysisClass:
         self.jackknVar = float(len(self.data) - 1) * np.var(jackknVec)
         self.jackknStd = np.sqrt(self.jackknVar)
 
-
+    # Blocking
+    @timeFunction
     def blocking(self, blockSizeMax = 500):
         blockSizeMin = 1
 
@@ -185,6 +200,7 @@ class dataAnalysisClass:
         print "Blocking Average: \t", self.blockingAvg
         print "Blocking Variance:\t", self.blockingVar
         print "Blocking Error:   \t", self.blockingStd, "\n"
+
 
 
 
