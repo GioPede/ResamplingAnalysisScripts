@@ -59,9 +59,8 @@ class dataAnalysisClass:
         self.jackknStd = np.sqrt(self.jackknVar)
 
 
-    def blocking(self, nPoints=500):
+    def blocking(self, blockSizeMax = 500):
         blockSizeMin = 1
-        blockSizeMax = len(self.data)
 
         self.blockSizes = []
         self.meanVec = []
@@ -69,7 +68,7 @@ class dataAnalysisClass:
 
         for i in range(blockSizeMin, blockSizeMax):
             if(len(self.data) % i != 0):
-                continue
+                pass#continue
             blockSize = i
             meanTempVec = []
             varTempVec = []
@@ -80,16 +79,14 @@ class dataAnalysisClass:
                 meanTempVec.append(np.average(self.data[startPoint:endPoint]))
                 startPoint = endPoint
                 endPoint += blockSize
-            mean, var = np.average(meanTempVec), np.var(meanTempVec)
+            mean, var = np.average(meanTempVec), np.var(meanTempVec)/len(meanTempVec)
             self.meanVec.append(mean)
             self.varVec.append(var)
             self.blockSizes.append(blockSize)
 
-        self.blockingAvg = np.average(self.meanVec[-3:])
-        self.blockingVar = (np.average(self.varVec[-3:]))
+        self.blockingAvg = np.average(self.meanVec[-200:])
+        self.blockingVar = (np.average(self.varVec[-200:]))
         self.blockingStd = np.sqrt(self.blockingVar)
-
-
 
 
 
