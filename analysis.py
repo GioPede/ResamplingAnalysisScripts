@@ -12,7 +12,7 @@ def timeFunction(f):
         time1 = time.time()
         ret = f(*args)
         time2 = time.time()
-        print '%s function took %0.3f s' % (f.func_name, (time2-time1))
+        print '%s Function Took: \t %0.3f s' % (f.func_name.title(), (time2-time1))
         return ret
     return wrap
 
@@ -28,7 +28,10 @@ class dataAnalysisClass:
 
     def loadData(self, size=0):
         if size != 0:
-            self.data = np.loadtxt(self.inputFileName)[0:size]
+            with open(self.inputFileName) as inputFile:
+                self.data = np.zeros(size)
+                for x in xrange(size):
+                    self.data[x] = float(next(inputFile))
         else:
             self.data = np.loadtxt(self.inputFileName)
 
